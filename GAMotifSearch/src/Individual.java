@@ -1,15 +1,14 @@
 /*
-# LengthMotifSearch - Tool to find motifs in clusters's sets of an experimental data set of RBP obtained by CLIP-seq protocol.
+# GAMotifSearch - Tool to find motifs in clusters's sets of an experimental data set of RBP obtained by CLIP-seq protocol.
 #
-# Created by Edson Leon Araujo and Msc. Carlos Andres Sierra on April 2015.
-# Copyright (c) 2015 Edson Leon Araujo and Msc. Carlos Andres Sierra. Research Group LACSER. Bios-UAN division. Universidad Antonio Narino. All rights reserved.
+# Created by Eng. Edson Leon Araujo and Msc. Carlos Andres Sierra on April 2015.
+# Copyright (c) 2015. Eng. Edson Leon Araujo and Msc. Carlos Andres Sierra. Research Group LACSER. Bios-UAN division. Universidad Antonio Narino. All rights reserved.
 #
-# This file is part of LengthMotifSearch.
+# This file is part of GAMotifSearch.
 #
-# CLengthMotifSearch is free software: you can redistribute it and/or modify it under the terms of the 
+# GAMotifSearch is free software: you can redistribute it and/or modify it under the terms of the 
 # GNU General Public License as published by the Free Software Foundation, version 2.
 */
-
 
 /**
  *
