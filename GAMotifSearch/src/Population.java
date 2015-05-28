@@ -119,7 +119,7 @@ public class Population
 	            }
 	        }
 	        
-	        fitness = fitnessFunction.calculateFitness( individual );
+	        fitness = fitnessFunction.calculateFitness_OccurrencesandMutations(individual, 0.5, 0.5);
 	        this.population.add( new Individual(individual, fitness) ); 
 	    }
     }
@@ -173,10 +173,10 @@ public class Population
     			}
     			
     			
-    			tempFitness = fitnessFunction.calculateFitness( sonsGenotipes[0] );
+    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[0], 0.5, 0.5 );
     			sons[0] =  new Individual(sonsGenotipes[0], tempFitness) ; 
     			
-    			tempFitness = fitnessFunction.calculateFitness( sonsGenotipes[1] );
+    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[1], 0.5, 0.5 );
     			sons[1] =  new Individual(sonsGenotipes[1], tempFitness); 
     			
     			newGeneration = this.replacement.steadyState(father1, father2, sons[0], sons[1]);
