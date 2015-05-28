@@ -215,6 +215,7 @@ public class FitnessFunction
 	}
 	
 	
+	
 	//TODO
 	/**
 	 * This method calculate fitness taken into account mutations by cluster
