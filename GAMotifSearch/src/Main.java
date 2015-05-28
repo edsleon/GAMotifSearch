@@ -51,6 +51,8 @@ public class Main {
     		System.exit(0);
         }
     	
+    	//TODO Read parameters from configuration file 
+    	
     	String file = args[0];
     	int sizePopulation = Integer.parseInt( args[1] );
     	int iterations = Integer.parseInt( args[2] );
@@ -133,6 +135,8 @@ public class Main {
         //Start population and run GA
     	Population population = new Population(file, sizePopulation, iterations);
     	
+    	
+    	//TODO improve results presentation. Add time, fitness, 
     	try 
     	{
     		fw = new FileWriter(o.getAbsoluteFile(), true);
