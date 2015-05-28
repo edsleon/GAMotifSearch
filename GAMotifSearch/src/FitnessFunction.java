@@ -48,6 +48,7 @@ public class FitnessFunction
 		int reads;
 		int mutations;
 		int[] mutationsT2C;
+		String[] tempMutationsT2C;
 		
 		
 		try 
@@ -69,7 +70,14 @@ public class FitnessFunction
 					reads = Integer.parseInt( lineBackground[6] );
 					mutations = Integer.parseInt( lineBackground[10] );
 					
-					mutationsT2C = new int[1];
+					//Profile of T2C mutations
+					tempMutationsT2C = lineBackground[20].split(" ");
+					mutationsT2C = new int[tempMutationsT2C.length];
+					
+					for(int i = 0; i < tempMutationsT2C.length; i++)
+					{
+						mutationsT2C[i] = Integer.parseInt(tempMutationsT2C[i]);
+					}
 					
 					this.clusters.add( new Cluster( chromosome, start, end, sequence, strand, reads, mutations, mutationsT2C ) );
 				}	
@@ -89,13 +97,176 @@ public class FitnessFunction
 	
 	
 	/**
-	 * This method is used to obtain fitness of an individual compared with data set information
+	 * This method calculate fitness taken into account the occurrences of individual inside clusters
 	 * @param individual
 	 * @return fitness
 	 */
-	public double calculateFitness (String individual)
+	public double calculateFitness_OccurrencesInCluster (String individual)
 	{
-        int ocurrences = 0;
+        int occurrences = 0;
+        String tempSequence;
+		
+		int lastIndex = 0;
+		
+		//Search in all clusters
+		for(int i = 0; i < this.clusters.size(); i++)
+		{
+			tempSequence = this.clusters.get(i).getSequence();
+			lastIndex = 0;
+			
+			//Move across the sequence
+			for(int j = 0; j < (tempSequence.length() - individual.length() + 1); j++)
+			{
+				lastIndex = tempSequence.indexOf( individual, lastIndex );
+				
+				if(lastIndex == -1)
+				{
+					break; //No matches
+				}
+				else
+				{
+					occurrences++;
+					lastIndex += (individual.length() - 1);
+				}
+			}
+		}
+		
+		return occurrences * 1.0;
+	}
+	
+	
+	/**
+	 * This method calculate fitness taken into account the occurrences of individual inside clusters but counting reads amount
+	 * @param individual
+	 * @return fitness
+	 */
+	public double calculateFitness_OccurrencesInReads (String individual)
+	{
+        int occurrences = 0;
+        String tempSequence;
+		
+		int lastIndex = 0;
+		
+		//Search in all clusters
+		for(int i = 0; i < this.clusters.size(); i++)
+		{
+			tempSequence = this.clusters.get(i).getSequence();
+			lastIndex = 0;
+			
+			//Move across the sequence
+			for(int j = 0; j < (tempSequence.length() - individual.length() + 1); j++)
+			{
+				lastIndex = tempSequence.indexOf( individual, lastIndex );
+				
+				if(lastIndex == -1)
+				{
+					break; //No matches
+				}
+				else
+				{
+					occurrences += this.clusters.get(i).getReads();
+					lastIndex += (individual.length() - 1);
+				}
+			}
+		}
+		
+		return occurrences * 1.0;
+	}
+	
+	
+	/**
+	 * This method calculate fitness taken into account mutations by cluster
+	 * @param individual
+	 * @return fitness
+	 */
+	public double calculateFitness_Mutations (String individual)
+	{
+        int mutations = 0;
+		String tempSequence;
+		
+		int lastIndex = 0;
+		
+		//Search in all clusters
+		for(int i = 0; i < this.clusters.size(); i++)
+		{
+			tempSequence = this.clusters.get(i).getSequence();
+			lastIndex = 0;
+			
+			//Move across the sequence
+			for(int j = 0; j < (tempSequence.length() - individual.length() + 1); j++)
+			{
+				lastIndex = tempSequence.indexOf( individual, lastIndex ); //TODO change for right function
+				
+				if(lastIndex == -1)
+				{
+					break; //No matches
+				}
+				else
+				{
+					mutations += this.clusters.get(i).getMutations();
+					break;
+				}
+			}
+			
+		}
+		
+		//Convex combination
+		return mutations * 1.0;
+	}
+	
+	
+	//TODO
+	/**
+	 * This method calculate fitness taken into account mutations by cluster
+	 * @param individual
+	 * @return fitness
+	 */
+	public double calculateFitness_MutationsT2C (String individual)
+	{
+        int mutations = 0;
+		String tempSequence;
+		
+		int lastIndex = 0;
+		
+		//Search in all clusters
+		for(int i = 0; i < this.clusters.size(); i++)
+		{
+			tempSequence = this.clusters.get(i).getSequence();
+			lastIndex = 0;
+			
+			//Move across the sequence
+			for(int j = 0; j < (tempSequence.length() - individual.length() + 1); j++)
+			{
+				lastIndex = tempSequence.indexOf( individual, lastIndex ); //TODO change for right function
+				
+				if(lastIndex == -1)
+				{
+					break; //No matches
+				}
+				else
+				{
+					mutations += this.clusters.get(i).getMutations();
+					break;
+				}
+			}
+			
+		}
+		
+		//Convex combination
+		return mutations * 1.0;
+	}
+	
+	
+	/**
+	 * This method calculate fitness in a convex combination of two-parameters: occurrences and mutations
+	 * @param individual
+	 * @param weigthOcurrences
+	 * @param weigthMutations
+	 * @return fitness
+	 */
+	public double calculateFitness_OccurrencesandMutations (String individual, double weigthOccurrences, double weigthMutations)
+	{
+        int occurrences = 0;
         int mutations = 0;
 		int lengths = 0;
 		String tempSequence;
@@ -121,7 +292,7 @@ public class FitnessFunction
 				}
 				else
 				{
-					ocurrences++;
+					occurrences++;
 					lastIndex += (individual.length() - 1);
 					find = true;
 				}
@@ -135,9 +306,9 @@ public class FitnessFunction
 		}
 		
 		//Convex combination
-		if(ocurrences == 0)
+		if(occurrences == 0)
 			return 0.0;
 		else
-			return (( ocurrences / this.clusters.size() ) * 0.5) + ( ( mutations / lengths ) * 0.5) * 100;
+			return (( occurrences / this.clusters.size() ) * 0.5) + ( ( mutations / lengths ) * 0.5) * 100;
 	}
 }
