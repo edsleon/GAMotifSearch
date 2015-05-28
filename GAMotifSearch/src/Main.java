@@ -78,6 +78,7 @@ public class Main {
     		System.exit(0);
     	}
     	
+    	
     	//Validate second parameter: Population Size
     	if(sizePopulation < 10)
     	{
