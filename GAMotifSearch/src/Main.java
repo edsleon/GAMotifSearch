@@ -12,13 +12,26 @@
 
 
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 
 /**
@@ -32,15 +45,16 @@ public class Main {
      */
     public static void main(String[] args) 
     {   
+    	//To print in console information about execution
     	BufferedWriter bf = new BufferedWriter ( new OutputStreamWriter(System.out) );
     	BufferedWriter bw = null;
     	
-    	if(args.length < 4)
+    	if(args.length != 1)
         {
     		//No valid file
     		try 
     		{
-				bf.write("Incomplete parameters.\n");
+				bf.write("Invalid parameter. Please set a valid configuration file. \n");
 				bf.flush();
 			} 
     		catch (IOException e) 
@@ -51,15 +65,95 @@ public class Main {
     		System.exit(0);
         }
     	
-    	//TODO Read parameters from configuration file 
+    	System.gc(); // Call Garbage Collector
+        
+  		String setupFile = args[0]; //File to extract configuration parameters
+        String line;
+        
+        // Read parameters from configuration file 
+    	String dataset = ""; //Data set of clusters. Can be in format .txt (from Cluster Detection) or .bed
+    	String datasetPath = ""; //Path in computer to access to data set
+    	int populationSize = 10; //Population size of genetic algorithm
+    	int iterations = 10; //Iterations or generations for genetic algorithm
+    	String output = "Default_output.txt"; //File to save motif and his attributes
+    	String email = ""; //(Optional) E-mail to send a report of results and end-run of tool
+    	String hg = ""; //(Required for BED files) Path to hg (human genome) chromosome files
+        
+        try 
+		{
+        	BufferedReader br;
+        	br = new BufferedReader(new FileReader(setupFile));
+        	String[] field_value;
+        	
+        	line = br.readLine();
+            
+            while(line != null)
+            {
+            	field_value = line.split("=");
+            	
+            	
+            	//Read parameters
+            	switch(field_value[0])
+            	{
+            		case "DataSet":
+            		{
+            			String[] path = field_value[1].split("/");
+            			dataset = path[path.length - 1];		
+            			datasetPath = field_value[1];
+            		}
+            		break;
+            		case "PopulationSize":
+            		{
+            			populationSize = Integer.parseInt(field_value[1]);
+            		}
+            		break;
+            		case "Iterations":
+            		{
+            			iterations  = Integer.parseInt(field_value[1]);
+            		}
+            		break;
+            		case "Output":
+            		{
+            			 output = field_value[1];
+            		}
+            		break;
+            		case "E-mail":
+            		{
+            			email = field_value[1];
+            		}
+            		break;
+            		case "PathHG":
+            		{
+            			hg = field_value[1];
+            			
+            			File fastaPathF = new File(hg);
+                        if (!fastaPathF.exists())
+                        {
+                        	System.out.println("Human genome folder not exists.");
+                        	System.exit(0);
+                        }
+                    }
+            		break;
+            	}
+            	
+            	line = br.readLine();
+            }
+            
+            br.close();
+		} 
+		catch (FileNotFoundException e1) 
+		{
+			e1.printStackTrace();
+		} 
+        catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+        
     	
-    	String file = args[0];
-    	int sizePopulation = Integer.parseInt( args[1] );
-    	int iterations = Integer.parseInt( args[2] );
-    	String output = args[3];
     	
         //File dataset
-    	File f = new File(file);
+    	File f = new File(datasetPath);
     	
     	//Validate first parameter: Clusters Dataset
     	if(!f.exists() || f.isDirectory())
@@ -67,7 +161,7 @@ public class Main {
     		//No valid file
     		try 
     		{
-				bf.write("No valid file. Please insert a valid path.\n");
+				bf.write("No valid data set file. Please insert a valid path.\n");
 				bf.flush();
 			} 
     		catch (IOException e) 
@@ -80,7 +174,7 @@ public class Main {
     	
     	
     	//Validate second parameter: Population Size
-    	if(sizePopulation < 10)
+    	if(populationSize < 10)
     	{
     		//No valid size
     		try 
@@ -114,7 +208,7 @@ public class Main {
     	}
     	
     	
-    	//File dataset
+    	//File output creation
     	File o = new File(output);
     	
     	//Create output file
@@ -133,8 +227,11 @@ public class Main {
             }
         }
     	
+        
         //Start population and run GA
-    	Population population = new Population(file, sizePopulation, iterations);
+    	Population population = new Population(datasetPath, populationSize, iterations, hg);
+    	
+    	String bestMotif = population.getBest(); //Save info for best motif at end of all iterations
     	
     	
     	//TODO improve results presentation. Add time, fitness, 
@@ -143,8 +240,8 @@ public class Main {
     		fw = new FileWriter(o.getAbsoluteFile(), true);
     		bw = new BufferedWriter(fw);
     		
-    		bf.write( population.getBest() + "\n\n" );
-    		bw.write( "Best motif is " + population.getBest() );
+    		bf.write( bestMotif + "\n\n" );
+    		bw.write( "Best motif is " + bestMotif );
 			bf.flush();
 			bw.flush();
 		} 
@@ -152,5 +249,47 @@ public class Main {
     	{
 			e.printStackTrace();
 		}
+    	
+    	//Sent mail
+    	sentMail(email, "The experiment is complete.\n", "DataSet: " + dataset, bestMotif);
+    }
+    
+    
+    /**
+     * 
+     * @param to
+     * @param content
+     * @param experimentName 
+     */
+    public static void sentMail(String to, String content, String experimentName, String motif)
+    {
+        String from = "carlos.andres.sierra.v@gmail.com"; // Sender E-mail
+        String host = "localhost"; //SMTP Host
+        Properties properties = System.getProperties(); //System Properties
+        properties.setProperty("mail.smtp.host", host); // Setup Mail Server
+
+        // Get Default Session object.
+        Session session = Session.getDefaultInstance(properties);
+
+         try
+         {
+            // Create a default MimeMessage object.
+            MimeMessage mail = new MimeMessage(session);
+
+            mail.setFrom(new InternetAddress(from)); //Set "From"
+            mail.addRecipient(Message.RecipientType.TO, new InternetAddress(to)); //Set "To"
+            mail.setSubject("End Run: " + experimentName); //Set "Subject"
+
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+            
+            mail.setContent("<h2>" + experimentName + "</h2><br><br>"  + content + "<br><br>Best mofit info:<br>" + motif + "<br><br>Date: " + timeStamp, "text/html" );
+
+            Transport.send(mail); //Send message
+            System.out.println("Sent mail successfully....");
+        }
+        catch (MessagingException e) 
+        {
+            System.out.println("Fail Sent mail.\n" + e.getMessage());
+        }
     }
 }

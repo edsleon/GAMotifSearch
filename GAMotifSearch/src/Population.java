@@ -40,7 +40,7 @@ public class Population
 	 * @param populationSize
 	 * @param iterations
 	 */
-	public Population(String file, int populationSize, int iterations)
+	public Population(String file, int populationSize, int iterations, String hg)
 	{
 		//TODO
 		bf = new BufferedWriter ( new OutputStreamWriter(System.out) );
