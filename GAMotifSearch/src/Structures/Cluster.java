@@ -14,20 +14,20 @@ package Structures;
 
 
 /**
- *
+ * TODO
  * @author Eng. (C) Edson David Leon - MSc. Carlos Andrés Sierra
  */
 public class Cluster {
 
 	//Attributes
-	private String chromosome;
-	private int start;
-	private int end;
-	private String sequence;
-	private String strand;
-	private int reads;
-	private int mutations;
-	private int[] mutationT2C;
+	private String chromosome; //TODO
+	private int start; //TODO
+	private int end; //TODO
+	private String sequence; //TODO
+	private String strand; //TODO
+	private int reads; //TODO
+	private int mutations; //TODO
+	private int[] mutationT2C; //TODO
 	
 	
 	/**

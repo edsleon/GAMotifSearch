@@ -10,19 +10,20 @@
 # GNU General Public License as published by the Free Software Foundation, version 2.
 */
 
+
 /**
- *
+ * TODO
  * @author Eng. (C) Edson David Leon - MSc. Carlos Andrés Sierra
  */
 public class Individual 
 {
 	private String fenotipe; //Representation of individual
 	private String genotipe; //Genetic representation of individual
-    private double fitness;
+    private double fitness; //TODO
     
     
     /**
-     * Zero-parameters constructor
+     * Zero-parameters constructor. Set values by default.
      */
     public Individual() 
     {
@@ -99,7 +100,7 @@ public class Individual
   
 	
 	/**
-	 * 
+	 * TODO
 	 */
 	public void obtainFenotipe()
 	{

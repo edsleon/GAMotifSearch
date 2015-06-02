@@ -22,15 +22,17 @@ import java.util.Vector;
  */
 public class Population 
 {
-	private int populationSize;
-	private int iterations;
-	private FitnessFunction fitnessFunction = null;
-	private Replacement replacement = null;
-	private GeneticOperator geneticOperator = null;
-	private Vector<Individual> population = null;
-	private Random rd = null;
+	//Attributes
+	private int populationSize; //TODO
+	private int iterations; //TODO
+	private FitnessFunction fitnessFunction = null; //TODO
+	private Replacement replacement = null; //TODO
+	private GeneticOperator geneticOperator = null; //TODO
+	private Vector<Individual> population = null; //TODO
+	private Random rd = null; //TODO
 	
-	BufferedWriter bf = null;
+	BufferedWriter bf = null; //TODO
+	
 	
 	/**
 	 * Constructor of the class
@@ -40,8 +42,10 @@ public class Population
 	 */
 	public Population(String file, int populationSize, int iterations)
 	{
+		//TODO
 		bf = new BufferedWriter ( new OutputStreamWriter(System.out) );
 		
+		//TODO
 		try 
 		{
 			bf.write("||---------- Welcome to GA-MotifDetection ----------|| \n\n Initializing algorithm...\n");
@@ -52,6 +56,7 @@ public class Population
 			e.printStackTrace();
 		}
 		
+		//TODO
 		this.populationSize = populationSize;
 		this.iterations = iterations;
 		
@@ -66,47 +71,49 @@ public class Population
 		{
 			bf.write("Building initial population...\n");
 			bf.flush();
+			
+			this.initialPopulation(); //TODO
 		} 
 		catch (IOException e) 
 		{
 			e.printStackTrace();
 		}
-		
-		this.initialPopulation();
 		
 		try 
 		{
 			bf.write("Start Genetic Algorithm...\n\n");
 			bf.flush();
+			
+			this.generations(); //TODO
 		} 
 		catch (IOException e) 
 		{
 			e.printStackTrace();
 		}
-		
-		this.generations();
 	}
     
 	
     /**
-     * 
+     * TODO
      */
     private void initialPopulation() 
     {
+    	//TODO
     	String individual = "";
         double fitness;
         
-    	
+    	//TODO
     	for(int i = 0; i < this.populationSize; i++) 
         {
 	        //Sequence length: 4 - 35
-	        int length = 4 + rd.nextInt(32);
-	        int base;
-	        individual = "";
+	        int length = 4 + rd.nextInt(32); //TODO
+	        int base; //TODO
+	        individual = ""; //TODO
 	        
+	        //TODO
 	        for(int j = 0; j < length; j++) 
 	        {
-	            base = rd.nextInt(4); 
+	            base = rd.nextInt(4); //TODO
 	            
 	            switch(base) 
 	            {
@@ -114,40 +121,42 @@ public class Population
 	                case 1:		individual += "C";	break;
 	                case 2:		individual += "G";	break;
 	                case 3:		individual += "T";	break;
-	                default:	individual += "N";	break;
+	                default:	individual += "N";	break; //TODO
 	            }
 	        }
 	        
+	        //TOO
 	        fitness = fitnessFunction.calculateFitness_OccurrencesandMutations(individual, 0.5, 0.5);
+	        
+	        //TODO
 	        this.population.add( new Individual(individual, fitness) ); 
 	    }
     }
     
     
     /**
-     * 
+     * TODO
      */
     private void generations()
     {
-    	Individual father1 = null;
-    	Individual father2 = null;
-    	String[] sonsGenotipes = new String[2];
-    	Individual[] sons = new Individual[2];
-    	Individual[] newGeneration = new Individual[2];
-    	Vector<Individual> nextGeneration = new Vector<Individual>();
-    	double tempFitness;
+    	//TODO
+    	Individual father1 = null; //TODO
+    	Individual father2 = null; //TODO
+    	String[] sonsGenotipes = new String[2]; //TODO
+    	Individual[] sons = new Individual[2]; //TODO
+    	Individual[] newGeneration = new Individual[2]; //TODO
+    	Vector<Individual> nextGeneration = new Vector<Individual>(); //TODO
+    	double tempFitness; //TODO
     	
     	
-    	
-    	//Iterations
+    	//Iterations or generations
     	for(int i = 0; i < this.iterations; i++)
     	{
-    		//this.toPrint();
-    		//System.gc();
+    		System.gc();
     		
     		try 
     		{
-    			bf.write("Iteration " + (i + 1) + "\n");
+    			bf.write("Iteration " + (i + 1) + "\n"); //TODO
     			bf.flush();
     		} 
     		catch (IOException e) 
@@ -158,27 +167,33 @@ public class Population
     		//Repeat operation to build new generation
     		for(int j = 0; j < (populationSize/ 2); j++)
     		{
-    			father1 = selectFather();
-    			father2 = selectFather();
+    			father1 = selectFather(); //TODO
+    			father2 = selectFather(); //TODO
     			
-    			//Get sons
-    			if(rd.nextDouble() < 0.5)
+    			//Apply genetic operator to obtain sons
+    			if(rd.nextDouble() < 0.5) //TODO
     			{
-    				sonsGenotipes = this.geneticOperator.mutation(father1.getGenotipe(), father2.getGenotipe());
+    				//TODO
+    				sonsGenotipes = this.geneticOperator.mutation(father1.getGenotipe(), father2.getGenotipe()); 
     			}
     			else
     			{
+    				//TODO
     				sonsGenotipes = this.geneticOperator.crossover(father1.getGenotipe(), father2.getGenotipe());
     			}
     			
-    			
+    			//TODO
     			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[0], 0.5, 0.5 );
     			sons[0] =  new Individual(sonsGenotipes[0], tempFitness) ; 
     			
+    			//TODO
     			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[1], 0.5, 0.5 );
     			sons[1] =  new Individual(sonsGenotipes[1], tempFitness); 
     			
+    			//TODO
     			newGeneration = this.replacement.steadyState(father1, father2, sons[0], sons[1]);
+    			
+    			//TODO
     			nextGeneration.add( newGeneration[0] );
     			nextGeneration.add( newGeneration[1] );
     		}
@@ -189,85 +204,102 @@ public class Population
     
     
     /**
-     * 
-     * @return
+     * TODO
+     * @return TODO
      */
     private Individual selectFather()
     {
     	Individual father = null;
-    	int candidate1, candidate2, candidate3, candidate4;
     	
-    	candidate1 = rd.nextInt(populationSize);
+    	int candidate1, candidate2, candidate3, candidate4; //TODO
+    	
+    	//TODO
+    	candidate1 = rd.nextInt(populationSize); 
     	candidate2 = rd.nextInt(populationSize);
     	candidate3 = rd.nextInt(populationSize);
     	candidate4 = rd.nextInt(populationSize);
     	
+    	//TODO
     	father = tournament( this.population.get(candidate1), this.population.get(candidate2), 
     			this.population.get(candidate3), this.population.get(candidate4) );
     	
+    	//TODO
     	return father;
     }
     
     
     /**
-     * 
+     * TODO
      * @param player1
      * @param player2
      * @param player3
      * @param player4
-     * @return
+     * @return TODO
      */
     private Individual tournament(Individual player1, Individual player2, Individual player3, Individual player4)
     {
-    	Individual winner = null;
+    	Individual winner = null; //TODO
     	
-    	winner = roulette( roulette(player1, player2), roulette(player3, player4) );
+    	//TODO
+    	winner = roulette( roulette(player1, player2), roulette(player3, player4) ); 
     	
     	return winner;
     }
     
     
     /**
-	 * 
+	 * TODO
 	 * @param player1
 	 * @param player2
-	 * @return
+	 * @return TODO
 	 */
 	private Individual roulette(Individual player1, Individual player2)
 	{
-		double totalFitness = player1.getFitness() + player2.getFitness();
+		//TODO
+		double totalFitness = player1.getFitness() + player2.getFitness(); 
+		
+		//TODO
 		double point = player1.getFitness() / totalFitness;
 		
+		//TODO
 		return rd.nextDouble() < point ? player1 : player2;
 	}
     
     
 	/**
-	 * 
-	 * @return
+	 * TODO
+	 * @return TODO
 	 */
     public String getBest()
     {
     	int index = 0;
+    	
+    	//TODO
     	double fitness = this.population.get(0).getFitness();
     	
+    	//TODO
     	for(int i = 1; i < this.populationSize; i++)
     	{
+    		//TODO
     		if(this.population.get(i).getFitness() > fitness)
     		{
-    			index = i;
-    			fitness = this.population.get(i).getFitness();
+    			index = i; //TODO
+    			fitness = this.population.get(i).getFitness(); //TODO
     		}
     	}
     	
-    	return this.population.get(index).getGenotipe();
+    	return this.population.get(index).getGenotipe(); //TODO improve to best results presentation
     }
     
     
+    /**
+     * 
+     */
     public void toPrint()
     {
     	String sentence = "\n\nPopulation\n";
     	
+    	//TODO
     	for(int i = 0; i < this.populationSize; i++)
     	{
     		sentence += this.population.get(i).getGenotipe() + "\t" + this.population.get(i).getFitness() + "\n";

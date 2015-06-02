@@ -13,13 +13,14 @@
 import java.util.Random;
 
 /**
- *
+ * TODO
  * @author Eng. (C) Edson David Leon - MSc. Carlos Andrés Sierra
  */
 
 public class GeneticOperator {
 
-	Random rd = new Random();
+	Random rd = new Random(); //TODO
+	
 	
 	/**
 	 * Constructor of the class. 
@@ -80,7 +81,7 @@ public class GeneticOperator {
 				{
 					base = randomBase('A', 'C', 'T');
 				}
-				else
+				else //Similar to previous case, taken into account that default option is T base
 				{
 					base = randomBase('A', 'C', 'G');
 				}
@@ -102,10 +103,9 @@ public class GeneticOperator {
 	{
 		char base = ' ';
 		
-		int position = rd.nextInt(3);
+		int position = rd.nextInt(3); //TODO
 		
 		//Define randomly which one of three bases is selected
-		
 		if(position == 0)
 		{
 			base = base1;
@@ -128,7 +128,7 @@ public class GeneticOperator {
 	
 	
 	/**
-	 * 
+	 * TODO
 	 * @param father1
 	 * @param father2
 	 * @return sons in an array
@@ -137,7 +137,10 @@ public class GeneticOperator {
 	{
 		String[] sonsChromosomes = new String[2];
 		
+		//TODO
 		int length = father1.length() < father2.length() ? father1.length() : father2.length();
+		
+		//TODO
 		int point = rd.nextInt(length);
 		
 		//Just make cross in point of rupture

@@ -14,12 +14,13 @@ import java.util.Random;
 
 
 /**
- *
+ * TODO
  * @author Eng. (C) Edson David Leon - MSc. Carlos Andrés Sierra
  */
 public class Replacement {
 
-	private Random rd = new Random();
+	
+	private Random rd = new Random(); //TODO
 	
 	
 	/**
@@ -28,31 +29,40 @@ public class Replacement {
 	public Replacement() {}
 	
 	
+	/**
+	 * TODO
+	 * @param father1
+	 * @param father2
+	 * @param son1
+	 * @param son2
+	 * @return TODO
+	 */
 	public Individual[] steadyState(Individual father1, Individual father2, Individual son1, Individual son2)
 	{
 		Individual[] winners = new Individual[2];
 		
-		if(father1.getFitness() < father2.getFitness())
+		//TODO
+		if(father1.getFitness() < father2.getFitness()) //TODO
 		{
-			if(son1.getFitness() < son2.getFitness())
+			if(son1.getFitness() < son2.getFitness()) //TODO
 			{
 				winners[0] = this.roulette(father1, son1); //Worst father - Worst son
 				winners[1] = this.roulette(father2, son2); //Best father - Best son
 			}
-			else
+			else //TODO
 			{
 				winners[0] = this.roulette(father1, son2); //Worst father - Worst son
 				winners[1] = this.roulette(father2, son1); //Best father - Best son
 			}
 		}
-		else
+		else //TODO
 		{
-			if(son1.getFitness() < son2.getFitness())
+			if(son1.getFitness() < son2.getFitness()) //TODO
 			{
 				winners[0] = this.roulette(father2, son1); //Worst father - Worst son
 				winners[1] = this.roulette(father1, son2); //Best father - Best son
 			}
-			else
+			else //TODO
 			{
 				winners[0] = this.roulette(father2, son2); //Worst father - Worst son
 				winners[1] = this.roulette(father1, son1); //Best father - Best son
@@ -65,17 +75,20 @@ public class Replacement {
 
 	
 	/**
-	 * 
+	 * TODO
 	 * @param player1
 	 * @param player2
-	 * @return
+	 * @return TODO
 	 */
 	private Individual roulette(Individual player1, Individual player2)
 	{
+		// TODO
 		double totalFitness = player1.getFitness() + player2.getFitness();
+		
+		//TODO
 		double point = player1.getFitness() / totalFitness;
 		
-		return rd.nextDouble() < point ? player1 : player2;
+		return rd.nextDouble() < point ? player1 : player2; //TODO
 	}
 
 }
