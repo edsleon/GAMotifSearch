@@ -49,7 +49,6 @@ public class Main {
     	long startTime = System.nanoTime(); //Start time counter 
         
     	
-    	
     	//To print in console information about execution
     	BufferedWriter bf = new BufferedWriter ( new OutputStreamWriter(System.out) );
     	BufferedWriter bw = null;
