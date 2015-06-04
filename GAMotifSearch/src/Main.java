@@ -45,6 +45,10 @@ public class Main {
      */
     public static void main(String[] args) 
     {   
+    	
+    	long startTime = System.nanoTime(); //Start time counter 
+        
+    	
     	//To print in console information about execution
     	BufferedWriter bf = new BufferedWriter ( new OutputStreamWriter(System.out) );
     	BufferedWriter bw = null;
@@ -95,7 +99,7 @@ public class Main {
             	//Read parameters
             	switch(field_value[0])
             	{
-            		case "DataSet":
+            		case "Dataset":
             		{
             			String[] path = field_value[1].split("/");
             			dataset = path[path.length - 1];		
@@ -161,7 +165,7 @@ public class Main {
     		//No valid file
     		try 
     		{
-				bf.write("No valid data set file. Please insert a valid path.\n");
+				bf.write("No valid data set file. Please insert a valid path.\nFile: " + datasetPath);
 				bf.flush();
 			} 
     		catch (IOException e) 
@@ -231,17 +235,25 @@ public class Main {
         //Start population and run GA
     	Population population = new Population(datasetPath, populationSize, iterations, hg);
     	
-    	String bestMotif = population.getBest(); //Save info for best motif at end of all iterations
+    	String bestMotif = "\n\n" + population.getBest(); //Save info for best motif at end of all iterations
     	
     	
+    	//Define time of execution
+    	double elapsedTimeInSec;
+        elapsedTimeInSec = (System.nanoTime() - startTime) * 1.0e-9;
+        
     	//TODO improve results presentation. Add time, fitness, 
     	try 
     	{
     		fw = new FileWriter(o.getAbsoluteFile(), true);
     		bw = new BufferedWriter(fw);
     		
-    		bf.write( bestMotif + "\n\n" );
+    		bf.write("\n\nElapsed Time: " + elapsedTimeInSec + " seconds\n\n");
+        	
     		bw.write( "Best motif is " + bestMotif );
+    		bw.write("\nElapsed Time: " + elapsedTimeInSec + " seconds\n\n");
+        	
+    		
 			bf.flush();
 			bw.flush();
 		} 
@@ -249,6 +261,11 @@ public class Main {
     	{
 			e.printStackTrace();
 		}
+    	
+    	
+    	
+        
+    	
     	
     	//Sent mail
     	sentMail(email, "The experiment is complete.\n", "DataSet: " + dataset, bestMotif);

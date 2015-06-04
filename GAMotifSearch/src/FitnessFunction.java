@@ -64,7 +64,7 @@ public class FitnessFunction
 				
 				
 				//TODO
-				if(lineBackground.length > 9)
+				if(lineBackground.length > 20)
 				{
 					//TODO
 					chromosome = lineBackground[2]; 
@@ -80,7 +80,7 @@ public class FitnessFunction
 					mutationsT2C = new int[tempMutationsT2C.length];
 					
 					//TODO
-					for(int i = 0; i < tempMutationsT2C.length; i++)
+					for(int i = 1; i < tempMutationsT2C.length; i++)
 					{
 						mutationsT2C[i] = Integer.parseInt(tempMutationsT2C[i]);
 					}
