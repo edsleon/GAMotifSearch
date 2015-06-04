@@ -166,6 +166,9 @@ public class Population
     		
     		
     		
+    		
+    		
+    		
     		//Repeat operation to build new generation
     		for(int j = 0; j < (populationSize/ 2); j++)
     		{

@@ -202,6 +202,7 @@ public class FitnessFunction
 			tempSequence = this.clusters.get(i).getSequence();
 			lastIndex = 0;
 		
+			
 			//Move across the sequence
 			for(int j = 0; j < (tempSequence.length() - individual.length() + 1); j++)
 			{
