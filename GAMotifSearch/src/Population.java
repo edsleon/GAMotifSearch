@@ -23,8 +23,10 @@ import java.util.Vector;
 public class Population 
 {
 	//Attributes
-	private int populationSize; //TODO
-	private int iterations; //TODO
+	private int populationSize = 0; //TODO
+	private int iterations = 0; //TODO
+	private double weightMutations = 0.0; //TODO
+	private double weightOccurrences = 0.0; //TODO
 	private FitnessFunction fitnessFunction = null; //TODO
 	private Replacement replacement = null; //TODO
 	private GeneticOperator geneticOperator = null; //TODO
@@ -40,7 +42,7 @@ public class Population
 	 * @param populationSize
 	 * @param iterations
 	 */
-	public Population(String file, int populationSize, int iterations, String hg)
+	public Population(String file, int populationSize, int iterations, double weightMutations, double weightOccurrences, String hg)
 	{
 		//TODO
 		bf = new BufferedWriter ( new OutputStreamWriter(System.out) );
@@ -59,6 +61,8 @@ public class Population
 		//TODO
 		this.populationSize = populationSize;
 		this.iterations = iterations;
+		this.weightMutations = weightMutations;
+		this.weightOccurrences = weightOccurrences;
 		
 		this.fitnessFunction = new FitnessFunction(file);
 		this.geneticOperator = new GeneticOperator();
@@ -126,7 +130,7 @@ public class Population
 	        }
 	        
 	        //TOO
-	        fitness = fitnessFunction.calculateFitness_OccurrencesandMutations(individual, 0.5, 0.5);
+	        fitness = fitnessFunction.calculateFitness_OccurrencesandMutations(individual, this.weightOccurrences, this.weightMutations);
 	        
 	        //TODO
 	        this.population.add( new Individual(individual, fitness) ); 
@@ -165,10 +169,6 @@ public class Population
     		}
     		
     		
-    		
-    		
-    		
-    		
     		//Repeat operation to build new generation
     		for(int j = 0; j < (populationSize/ 2); j++)
     		{
@@ -188,11 +188,11 @@ public class Population
     			}
     			
     			//TODO
-    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[0], 0.5, 0.5 );
+    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[0], this.weightOccurrences, this.weightMutations );
     			sons[0] =  new Individual(sonsGenotipes[0], tempFitness) ; 
     			
     			//TODO
-    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[1], 0.5, 0.5 );
+    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[1], this.weightOccurrences, this.weightMutations );
     			sons[1] =  new Individual(sonsGenotipes[1], tempFitness); 
     			
     			//TODO
@@ -293,7 +293,11 @@ public class Population
     		}
     	}
     	
-    	return this.population.get(index).getGenotipe(); //TODO improve to best results presentation
+    	String best = "Sequence: " + this.population.get(index).getGenotipe();
+    	best += "\nLength: " + this.population.get(index).getGenotipe().length();
+    	best += "\nFitness: " + fitness;
+    	
+    	return best; //TODO improve to best results presentation
     }
     
     

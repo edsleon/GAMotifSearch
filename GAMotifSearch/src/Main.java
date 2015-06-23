@@ -80,6 +80,8 @@ public class Main {
     	String datasetPath = ""; //Path in computer to access to data set
     	int populationSize = 10; //Population size of genetic algorithm
     	int iterations = 10; //Iterations or generations for genetic algorithm
+    	double weightMutations = 0.5;
+    	double weightOccurrences = 0.5;
     	String output = "Default_output.txt"; //File to save motif and his attributes
     	String email = ""; //(Optional) E-mail to send a report of results and end-run of tool
     	String hg = ""; //(Required for BED files) Path to hg (human genome) chromosome files
@@ -115,6 +117,16 @@ public class Main {
             		case "Iterations":
             		{
             			iterations  = Integer.parseInt(field_value[1]);
+            		}
+            		break;
+            		case "WeightMutations":
+            		{
+            			weightMutations = Double.parseDouble(field_value[1]);
+            		}
+            		break;
+            		case "WeightOccurrences":
+            		{
+            			weightOccurrences = Double.parseDouble(field_value[1]);
             		}
             		break;
             		case "Output":
@@ -234,7 +246,7 @@ public class Main {
     	
         
         //Start population and run GA
-    	Population population = new Population(datasetPath, populationSize, iterations, hg);
+    	Population population = new Population(datasetPath, populationSize, iterations, weightMutations, weightOccurrences, hg);
     	
     	String bestMotif = "\n\n" + population.getBest(); //Save info for best motif at end of all iterations
     	
@@ -249,10 +261,11 @@ public class Main {
     		fw = new FileWriter(o.getAbsoluteFile(), true);
     		bw = new BufferedWriter(fw);
     		
-    		bf.write("\n\nElapsed Time: " + elapsedTimeInSec + " seconds\n\n");
+    		bf.write( "\nBest motif is: " + bestMotif );
+    		bf.write("\n\nElapsed Time: " + elapsedTimeInSec + " seconds\n\n\n");
         	
-    		bw.write( "Best motif is " + bestMotif );
-    		bw.write("\nElapsed Time: " + elapsedTimeInSec + " seconds\n\n");
+    		bw.write( "\nBest motif is: " + bestMotif );
+    		bw.write("\n\nElapsed Time: " + elapsedTimeInSec + " seconds\n\n\n");
         	
     		
 			bf.flush();
