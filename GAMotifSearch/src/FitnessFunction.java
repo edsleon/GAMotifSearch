@@ -21,7 +21,7 @@ import Structures.Cluster;
 
 
 /**
- *TODO
+ * This class represents fitness function to genetic algorithm
  * @author Eng. (C) Edson David Leon - MSc. Carlos Andrés Sierra
  */
 public class FitnessFunction 
@@ -40,16 +40,16 @@ public class FitnessFunction
 		String[] lineBackground;
 		String line = "";
 		
-		//TODO
-		String chromosome; 
-		int start; 
-		int end;
-		String sequence;
-		String strand; 
-		int reads;
-		int mutations;
-		int[] mutationsT2C;
-		String[] tempMutationsT2C;
+		//Read attributes
+		String chromosome = ""; 
+		int start = -1; 
+		int end = -1;
+		String sequence = "";
+		String strand = ""; 
+		int reads = -1;
+		int mutations = -1;
+		int[] mutationsT2C = null;
+		String[] tempMutationsT2C = null;
 		
 		
 		try 
@@ -57,16 +57,15 @@ public class FitnessFunction
 			brBackground = new BufferedReader(new FileReader(file));
 			line = brBackground.readLine();
 			
-			while(line != null) //TODO
+			while(line != null) //Read all lines of file
 			{
-				//TODO
+				//Separate all fields of row
 				lineBackground = line.split("\t");
 				
-				
-				//TODO
+				//Validate if read is valid
 				if(lineBackground.length > 20)
 				{
-					//TODO
+					//Read's Information
 					chromosome = lineBackground[2]; 
 					start = Integer.parseInt( lineBackground[3] );
 					end = Integer.parseInt( lineBackground[4] );
@@ -79,13 +78,13 @@ public class FitnessFunction
 					tempMutationsT2C = lineBackground[20].split(" ");
 					mutationsT2C = new int[tempMutationsT2C.length];
 					
-					//TODO
+					//Get mutations per position
 					for(int i = 1; i < tempMutationsT2C.length; i++)
 					{
 						mutationsT2C[i] = Integer.parseInt(tempMutationsT2C[i]);
 					}
 					
-					//TODO
+					//Add cluster to collection
 					this.clusters.add( new Cluster( chromosome, start, end, sequence, strand, reads, mutations, mutationsT2C ) );
 				}	
 					
@@ -124,7 +123,7 @@ public class FitnessFunction
 			//Move across the sequence
 			for(int j = 0; j < (tempSequence.length() - individual.length() + 1); j++)
 			{
-				//TODO
+				//Get occurrences inside sequence
 				lastIndex = tempSequence.indexOf( individual, lastIndex );
 				
 				if(lastIndex == -1)
@@ -133,7 +132,7 @@ public class FitnessFunction
 				}
 				else
 				{
-					//TODO
+					//Add occurrences and move inside sequence
 					occurrences++;
 					lastIndex += (individual.length() - 1);
 				}
@@ -151,8 +150,8 @@ public class FitnessFunction
 	 */
 	public double calculateFitness_OccurrencesInReads (String individual)
 	{
-        int occurrences = 0; //TODO
-        String tempSequence; //TODO
+        int occurrences = 0; //Occurrences in read
+        String tempSequence; //Read's sequence
 		
 		int lastIndex = 0;
 		
@@ -173,7 +172,7 @@ public class FitnessFunction
 				}
 				else
 				{
-					//TODO
+					//Increase occurrences
 					occurrences += this.clusters.get(i).getReads();
 					lastIndex += (individual.length() - 1);
 				}
@@ -189,10 +188,11 @@ public class FitnessFunction
 	 * @param individual
 	 * @return fitness
 	 */
+	@SuppressWarnings("unused")
 	public double calculateFitness_Mutations (String individual)
 	{
-        int mutations = 0; //TODO
-		String tempSequence; //TODO
+        int mutations = 0; //Amount of mutations
+		String tempSequence; //Read's sequence
 		
 		int lastIndex = 0;
 		
@@ -206,7 +206,7 @@ public class FitnessFunction
 			//Move across the sequence
 			for(int j = 0; j < (tempSequence.length() - individual.length() + 1); j++)
 			{
-				lastIndex = tempSequence.indexOf( individual, lastIndex ); //TODO change for right function
+				lastIndex = tempSequence.indexOf( individual, lastIndex ); // change for right function
 				
 				if(lastIndex == -1)
 				{
@@ -214,7 +214,7 @@ public class FitnessFunction
 				}
 				else
 				{
-					//TODO
+					//Increase mutations
 					mutations += this.clusters.get(i).getMutations();
 					break;
 				}
@@ -227,16 +227,17 @@ public class FitnessFunction
 	
 	
 	
-	//TODO
+	
 	/**
-	 * This method calculate fitness taken into account mutations T2C
+	 * This method calculate fitness taken into account just mutations T2C
 	 * @param individual
 	 * @return fitness
 	 */
+	@SuppressWarnings("unused")
 	public double calculateFitness_MutationsT2C (String individual)
 	{
-        int mutations = 0; //TODO
-		String tempSequence; //TODO
+        int mutations = 0; //Amount of mutations T2C in motif occurrences
+		String tempSequence; //Read to compare motif
 		
 		int lastIndex = 0;
 		
@@ -249,7 +250,7 @@ public class FitnessFunction
 			//Move across the sequence
 			for(int j = 0; j < (tempSequence.length() - individual.length() + 1); j++)
 			{
-				lastIndex = tempSequence.indexOf( individual, lastIndex ); //TODO change for right function
+				lastIndex = tempSequence.indexOf( individual, lastIndex ); // change for right function
 				
 				if(lastIndex == -1)
 				{
@@ -257,7 +258,7 @@ public class FitnessFunction
 				}
 				else
 				{
-					//TODO
+					//Motif presence, then add amount of mutations in occurrence
 					mutations += this.clusters.get(i).getMutations();
 					break;
 				}
@@ -265,8 +266,7 @@ public class FitnessFunction
 			
 		}
 		
-		//Convex combination
-		return mutations * 1.0;
+		return mutations;
 	}
 	
 	
@@ -279,10 +279,10 @@ public class FitnessFunction
 	 */
 	public double calculateFitness_OccurrencesandMutations (String individual, double weigthOccurrences, double weigthMutations)
 	{
-        int occurrences = 0; //TODO
-        int mutations = 0; //TODO
-		int lengths = 0; //TODO
-		String tempSequence; //TODO
+        int occurrences = 0; //Occurrences of motif inside data set reads
+        int mutations = 0; //Amount of mutations where motif mapped
+		int lengths = 0; //Sum of lengths of reads where motif mapped
+		String tempSequence; //Current read to review motif presence
 		
 		int lastIndex = 0;
 		boolean find;
@@ -305,29 +305,43 @@ public class FitnessFunction
 				}
 				else
 				{
-					//TODO
+					//Increase amount of occurrences
 					occurrences++;
 					lastIndex += (individual.length() - 1);
 					find = true; 
 				}
 			}
 			
-			//TODO
+			//If motif has occurrence in read
 			if(find)
 			{
-				//TODO
+				//Increase amount of mutations
 				mutations += this.clusters.get(i).getMutations();
 				lengths += tempSequence.length();
 			}
 		}
 		
-		//Convex combination
 		if(occurrences == 0)
 			return 0.0;
 		else
 		{
-			//TODO
+			//Convex combination
 			return (( occurrences / this.clusters.size() ) * weigthOccurrences) + ( ( mutations / lengths ) * weigthMutations) * 100;
 		}
-	}	
+	}
+	
+	
+	public static void Main(String args[])
+	{
+		String file = args[0];
+		String motif = args[1];
+		
+		FitnessFunction ff = new FitnessFunction(file);
+		System.out.println("Mutations\t" + ff.calculateFitness_Mutations(motif));
+		System.out.println("Mutations T2C\t" + ff.calculateFitness_MutationsT2C(motif));
+		System.out.println("OccurrencesMutations\t" + ff.calculateFitness_OccurrencesandMutations(motif, 0.5, 0.5));
+		System.out.println("OccurrencesCluster\t" + ff.calculateFitness_OccurrencesInCluster(motif));
+		System.out.println("OccurrencesReads\t" + ff.calculateFitness_OccurrencesInReads(motif));
+		
+	}
 }

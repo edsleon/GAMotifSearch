@@ -1,0 +1,256 @@
+Best motif is 
+
+TTTACA
+Elapsed Time: 12.528187 seconds
+
+Best motif is 
+
+CTCAAGT
+Elapsed Time: 1.7995290000000002 seconds
+
+
+Best motif is:
+ 
+
+Sequence: GCCGLength: 4Fitness: 32250.0
+Best motif is:
+ 
+
+Sequence: GCCGLength: 4Fitness: 32250.0
+Elapsed Time: 1.905737 seconds
+
+
+Best motif is:
+ 
+
+Sequence: CCGALength: 4Fitness: 40850.0
+Best motif is:
+ 
+
+Sequence: CCGALength: 4Fitness: 40850.0
+Elapsed Time: 1.9007850000000002 seconds
+
+
+Best motif is:
+ 
+
+Sequence: GTCCTGLength: 6Fitness: 19900.0
+Elapsed Time: 1.8069590000000002 seconds
+
+
+Best motif is:
+ 
+
+Sequence: GGTAA
+Length: 5
+Fitness: 60450.0
+Elapsed Time: 1.8681450000000002 seconds
+
+
+Best motif is: 
+
+Sequence: CATG
+Length: 4
+Fitness: 8400.0
+Elapsed Time: 1.702657 seconds
+
+
+Best motif is: 
+
+Sequence: TAAC
+Length: 4
+Fitness: 12550.0
+
+Elapsed Time: 1.783381 seconds
+
+
+
+Best motif is: 
+
+Sequence: TAATCTCAG
+Length: 9
+Fitness: 15850.0
+
+Elapsed Time: 2.14223 seconds
+
+
+
+Best motif is: 
+
+Sequence: CCAAC
+Length: 5
+Fitness: 27900.0
+
+Elapsed Time: 1.825107 seconds
+
+
+
+Best motif is: 
+
+Sequence: CCGAG
+Length: 5
+Fitness: 89150.0
+
+Elapsed Time: 1.7665510000000002 seconds
+
+
+
+Best motif is: 
+
+Sequence: CCGA
+Length: 4
+Fitness: 40850.0
+
+Elapsed Time: 1.9679760000000002 seconds
+
+
+
+Best motif is: 
+
+Sequence: GGGG
+Length: 4
+Fitness: 12600.0
+
+Elapsed Time: 1.752253 seconds
+
+
+
+Best motif is: 
+
+Sequence: GCCG
+Length: 4
+Fitness: 32250.0
+
+Elapsed Time: 1.8390730000000002 seconds
+
+
+
+Best motif is: 
+
+Sequence: TATTTAGA
+Length: 8
+Fitness: 11600.0
+
+Elapsed Time: 1.733859 seconds
+
+
+
+Best motif is: 
+
+Sequence: CTACG
+Length: 5
+Fitness: 17350.0
+
+Elapsed Time: 1.9445850000000002 seconds
+
+
+
+Best motif is: 
+
+Sequence: CAGGAGGTGCATAGATAGTCGATAGC
+Length: 26
+Fitness: 0.0
+
+Elapsed Time: 1.53791 seconds
+
+
+
+Best motif is: 
+
+Sequence: CTGTAGCCTAAAGC
+Length: 14
+Fitness: 0.0
+
+Elapsed Time: 1.645439 seconds
+
+
+
+Best motif is: 
+
+Sequence: ACCGGGTGAGGCTTCTAAGAAATG
+Length: 24
+Fitness: 0.0
+
+Elapsed Time: 1.5522440000000002 seconds
+
+
+
+Best motif is: 
+
+Sequence: GGGGGTTCTTGAT
+Length: 13
+Fitness: 0.0
+
+Elapsed Time: 1.633706 seconds
+
+
+
+Best motif is: 
+
+Sequence: GTAACA
+Length: 6
+Fitness: 755700.0
+
+Elapsed Time: 1.7586590000000002 seconds
+
+
+
+Best motif is: 
+
+Sequence: ATACTCT
+Length: 7
+Fitness: 24700.0
+
+Elapsed Time: 1.780019 seconds
+
+
+
+Best motif is: 
+
+Sequence: CCAGG
+Length: 5
+Fitness: 7600.0
+
+Elapsed Time: 1.8220800000000001 seconds
+
+
+
+Best motif is: 
+
+Sequence: AGGATTT
+Length: 7
+Fitness: 5750.0
+
+Elapsed Time: 1.8140120000000002 seconds
+
+
+
+Best motif is: 
+
+Sequence: TTAATA
+Length: 6
+Fitness: 22500.0
+
+Elapsed Time: 1.859954 seconds
+
+
+
+Best motif is: 
+
+Sequence: GCCGA
+Length: 5
+Fitness: 90700.0
+
+Elapsed Time: 40.330896 seconds
+
+
+
+Best motif is: 
+
+Sequence: GTAACA
+Length: 6
+Fitness: 377850.0
+
+Elapsed Time: 25.305426 seconds
+
+
