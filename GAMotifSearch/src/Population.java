@@ -130,7 +130,7 @@ public class Population
 	        }
 	        
 	        //TOO
-	        fitness = fitnessFunction.calculateFitness_OccurrencesandMutations(individual, this.weightOccurrences, this.weightMutations);
+	        fitness = fitnessFunction.calculateFitness_OccurrencesandMutations(individual, 0.5, 0.5);
 	        
 	        //TODO
 	        this.population.add( new Individual(individual, fitness) ); 
@@ -158,16 +158,6 @@ public class Population
     	{
     		System.gc();
     		
-    		try 
-    		{
-    			bf.write("Iteration " + (i + 1) + "\n"); //TODO
-    			bf.flush();
-    		} 
-    		catch (IOException e) 
-    		{
-    			e.printStackTrace();
-    		}
-    		
     		
     		//Repeat operation to build new generation
     		for(int j = 0; j < (populationSize/ 2); j++)
@@ -188,19 +178,21 @@ public class Population
     			}
     			
     			//TODO
-    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[0], this.weightOccurrences, this.weightMutations );
+    			//tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[0], this.weightOccurrences, this.weightMutations );
+    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations(sonsGenotipes[0], 0.5, 0.5);
     			sons[0] =  new Individual(sonsGenotipes[0], tempFitness) ; 
     			
     			//TODO
-    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[1], this.weightOccurrences, this.weightMutations );
+    			//tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations( sonsGenotipes[1], this.weightOccurrences, this.weightMutations );
+    			tempFitness = fitnessFunction.calculateFitness_OccurrencesandMutations(sonsGenotipes[1], 0.5, 0.5);
     			sons[1] =  new Individual(sonsGenotipes[1], tempFitness); 
     			
     			//TODO
-    			newGeneration = this.replacement.steadyState(father1, father2, sons[0], sons[1]);
+    			//newGeneration = this.replacement.steadyState(father1, father2, sons[0], sons[1]);
     			
     			//TODO
-    			nextGeneration.add( newGeneration[0] );
-    			nextGeneration.add( newGeneration[1] );
+    			nextGeneration.add( sons[0] );
+    			nextGeneration.add( sons[1] );	
     		}
     		
     		this.population = nextGeneration;
@@ -302,13 +294,13 @@ public class Population
     
     
     /**
-     * 
+     * Print current population
      */
     public void toPrint()
     {
     	String sentence = "\n\nPopulation\n";
     	
-    	//TODO
+    	//Move through all population
     	for(int i = 0; i < this.populationSize; i++)
     	{
     		sentence += this.population.get(i).getGenotipe() + "\t" + this.population.get(i).getFitness() + "\n";

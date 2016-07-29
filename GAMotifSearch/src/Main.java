@@ -176,7 +176,7 @@ public class Main {
     	if(!f.exists() || f.isDirectory())
     	{
     		//No valid file
-    		try 
+    		try  
     		{
 				bf.write("No valid data set file. Please insert a valid path.\nFile: " + datasetPath);
 				bf.flush();
